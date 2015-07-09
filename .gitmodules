@@ -1,0 +1,12 @@
+[submodule "modules/MediaConch_SourceCode"]
+	path = modules/MediaConch_SourceCode
+	url = git@github.com:MediaArea/MediaConch_SourceCode.git
+[submodule "modules/MediaConch"]
+	path = modules/MediaConch
+	url = git@github.com:MediaArea/MediaConch.git
+[submodule "modules/MediaInfoLib"]
+	path = modules/MediaInfoLib
+	url = git@github.com:MediaArea/MediaInfoLib.git
+[submodule "modules/ZenLib"]
+	path = modules/ZenLib
+	url = git@github.com:MediaArea/ZenLib.git
