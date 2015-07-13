@@ -31,6 +31,7 @@ else:
 # MediaConch
 mediaConchDir = os.path.join(modulesDir, "MediaConch")
 mediaConchCSamplesDir = os.path.join(mediaConchDir, "SampleTestFiles")
+mediaConchCDemoDir = os.path.join(mediaConchDir, "Demo/Files")
 
 # MediaConchCLI
 mediaConchCLIDir = os.path.join(modulesDir, "MediaConch_SourceCode")
@@ -50,6 +51,7 @@ def before_all(ctx):
     ctx.mediaInfoLibPath = mediaInfoLibPath
     ctx.mediaConchCLIPath = mediaConchCLIPath
     ctx.samplesDir = mediaConchCSamplesDir
+    ctx.demoDir = mediaConchCDemoDir
     ctx.expectedDir = expectedDir
 
 def before_feature(ctx, feature):
@@ -63,6 +65,7 @@ def before_scenario(ctx, scenario):
     ctx.tool = None
     ctx.processRet = None
     ctx.processStdout = None
+    ctx.outSplitted = None
     ctx.xmlOutput = None
 
 def before_step(ctx, step):

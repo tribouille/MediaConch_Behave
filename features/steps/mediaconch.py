@@ -28,6 +28,14 @@ def step_select_format(ctx, outFormat):
 def step_select_tool(ctx, tool):
     ctx.tool = tool
 
+@given('I register the demo file (?P<filename>.+) as video file')
+def step_register_demo_file(ctx, filename):
+    ctx.videoFiles.append(os.path.join(ctx.demoDir, filename))
+
+@given(u'I use (?P<filename>.+) as a policy file')
+def step_register_policy_file(ctx, filename):
+    ctx.policyFiles.append(os.path.join(ctx.demoDir, filename))
+
 @when('I use the CLI')
 def step_impl(ctx):
     argument = [ ctx.mediaConchCLIPath ]
@@ -35,6 +43,9 @@ def step_impl(ctx):
         argument.append("--tool=%s" % ctx.tool)
     if ctx.outFormat:
         argument.append("--format=%s" % ctx.outFormat)
+    if (len(ctx.policyFiles)):
+        for policy in ctx.policyFiles:
+            argument.append("--policy=%s" % policy)
     for videoFile in ctx.videoFiles:
         argument.append(videoFile)
 
@@ -65,6 +76,25 @@ def step_xml_contains(ctx):
         if not "track" in ctx.table.headings or not "field" in ctx.table.headings or not "value" in ctx.table.headings:
             assert False, "track must be set"
         check_in_xml_output(ctx.xmlOutput, row['track'], row['field'], row['value'])
+
+@then(u'the policy (?P<policy>.+) is (?P<val>\w+:|invalid|valid|)')
+def step_validate_xml_output(ctx, policy, val=None):
+    if not ctx.outSplitted:
+        ctx.outSplitted = ctx.processStdout[0].splitlines()
+    output = ctx.outSplitted.pop(0)
+    output_wanted = "%s: " % (os.path.join(ctx.demoDir, policy))
+    if val == "invalid":
+        output_wanted += "NOT "
+        #remove error lines
+        for line in ctx.outSplitted:
+            if line.startswith("\t") or not len(line):
+                ctx.outSplitted.remove(line)
+            else:
+                break
+
+    output_wanted += "VALID"
+    if not output.startswith(output_wanted):
+        assert False, "%s does not validate the output XML" % policy
 
 #HELPER
 def check_in_xml_output(xml, track, field, value):
