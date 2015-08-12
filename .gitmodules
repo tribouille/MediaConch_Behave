@@ -10,3 +10,6 @@
 [submodule "modules/ZenLib"]
 	path = modules/ZenLib
 	url = git@github.com:MediaArea/ZenLib.git
+[submodule "modules/MediaInfo"]
+	path = modules/MediaInfo
+	url = git@github.com:MediaArea/MediaInfo.git

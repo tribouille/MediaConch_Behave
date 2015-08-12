@@ -6,10 +6,13 @@
 
 import os.path
 import platform
+import sys
+import shutil
 
 # Current directory
 featureDir = os.path.abspath(os.path.dirname(__file__))
 modulesDir = os.path.join(featureDir, "../modules")
+classDir = os.path.join(featureDir, "../Class")
 
 # Dependancies directory
 #  ZenLib
@@ -28,10 +31,21 @@ if platform.system() == "Linux":
 else:
     raise "OS not managed for the moment"
 
+
+# MediInfo
+mediaInfoDir = os.path.join(modulesDir, "MediaInfo/")
+mediaInfoCLIPath = ""
+
+if platform.system() == "Linux":
+    mediaInfoCLIPath = os.path.join(mediaInfoDir, "Project/GNU/CLI/mediainfo")
+else:
+    raise "OS not managed for the moment"
+
 # MediaConch
 mediaConchDir = os.path.join(modulesDir, "MediaConch")
 mediaConchCSamplesDir = os.path.join(mediaConchDir, "SampleTestFiles")
 mediaConchCDemoDir = os.path.join(mediaConchDir, "Demo/Files")
+mediaConchCorpusDir = os.path.join(mediaConchDir, "TestFileCorpus")
 
 # MediaConchCLI
 mediaConchCLIDir = os.path.join(modulesDir, "MediaConch_SourceCode")
@@ -41,18 +55,22 @@ if platform.system() == "Linux":
 else:
     raise "OS not managed for the moment"
 
-# Expected directory
-expectedDir = os.path.join(featureDir, "../expected")
+if classDir not in sys.path:
+    sys.path.insert(0, classDir)
+
+from MediaInfoLibTest import MediaInfoLibTest
 
 # Behave init
 
 def before_all(ctx):
     ctx.zenLibPath = zenLibPath
     ctx.mediaInfoLibPath = mediaInfoLibPath
+    ctx.mediaInfoCLIPath = mediaInfoCLIPath
     ctx.mediaConchCLIPath = mediaConchCLIPath
     ctx.samplesDir = mediaConchCSamplesDir
     ctx.demoDir = mediaConchCDemoDir
-    ctx.expectedDir = expectedDir
+    ctx.corpusDir = mediaConchCorpusDir
+    ctx.MIPython = MediaInfoLibTest(mediaInfoCLIPath)
 
 def before_feature(ctx, feature):
     # Check tags here
