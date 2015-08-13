@@ -1,0 +1,27 @@
+Installation:
+=============
+
+First, you need to install Python, Behave and all dependancies.
+
+For behave, you can report to http://pythonhosted.org/behave
+
+
+//TODO
+Then, you will need git to get the source.
+
+git clone https://github.com/tribouille/MediaConch_Behave
+cd MediaConch_Behave
+git submodule update -i --recursive
+
+Finally, you need to compile the projects.
+//TODO
+
+
+Execution:
+==========
+
+Time to test:
+* If you want to test all features, use the command 'behave' in the directory features
+* If you want to test a specific feature, use the command 'behave feature_file' in the directory features.
+
+See behave --help for more information.
